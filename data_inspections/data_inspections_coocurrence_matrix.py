@@ -1,4 +1,8 @@
 """
+debugfile('C:/Users/Administrador/Desktop/master_project/train_refactoring/data_inspections/Data inspections correlation matrix.py',args='--matrix-path C:/Users/Administrador/Desktop/master_project/models-main/glove-wikipedia/100_models/100_clusters_npy/correlation_matrix_39.npy --dictionary-path C:/Users/Administrador/Desktop/master_project/models-main/glove-wikipedia/100_models/tags_dict_100.pkl --ROC-per-label-path C:/Users/Administrador/Desktop/master_project/models-main/glove-wikipedia/500_models/100_clusters_npy/record_PR_180721-134223.npy', wdir='C:/Users/Administrador/Desktop/master_project/train_refactoring/data_inspections')
+"""
+
+"""
 Contains different data inspections related to the co-occurence matrix and the results of the classifier
 """
 
@@ -7,6 +11,7 @@ import os
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--matrix-path", dest='matrix_path',
@@ -30,6 +35,12 @@ for i in range(len(b_diag)):
     for j in range(len(b_diag)):
         b_normalized[i, j] /= np.sqrt(b_diag[i] * b_diag[j])
 
+ax = sns.heatmap(b_normalized, linewidth=0.005)
+plt.title('Normalized co-occurence matrix $C_{ij}$')
+plt.xlabel('Index $i$')
+plt.ylabel('Index $j$')
+plt.show()
+
 correlated_clusters = [i for i in np.argwhere(b_normalized > 0.5) if i[0] != i[1]]
 m = 1.5
 # This variable will store the pairs of clusters in which the less frequent cluster co-occurs with the largest cluster in at least 1/m of the occurences of the largest clsuter
@@ -39,6 +50,16 @@ for i in range(len(b)):
         if i != j:
             if b_normalized[i, j] > np.sqrt(np.minimum(b[i, i] / b[j, j], b[j, j] / b[i, i])) / m:
                 correlated_clusters_m.append([i, j])
+print('The percentage of m-correlated clusters is: ',len(correlated_clusters_m)/(len(b)**2))
+
+correlated_clusters = []
+for i in range(len(b)):
+    for j in range(len(b.T)):
+        if i!=j:
+            if b_normalized[i,j]>0.5:
+                correlated_clusters.append([i,j])                
+print('The percentage of highly correlated clusters is: ',(len(correlated_clusters))/(len(b)**2))
+
 
 with open(args.dictionary_path, "rb") as f:
     dictionary_clusters = pickle.load(f)
