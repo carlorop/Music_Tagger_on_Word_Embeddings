@@ -1,1 +1,0 @@
-Explain that all the models can be computed just loading the dictionsaries
