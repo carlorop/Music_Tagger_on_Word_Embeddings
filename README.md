@@ -169,9 +169,13 @@ We have trained the neural network using the binary cross entropy as loss functi
 
 In this model we will explore a different way of employing word embeddings to take advantage of the semantic information of the tags. We will classify on the 80 filtered tags from Model 2. However, we shall modify the loss function to penalise predictions of tags whose semantic meaning is inconsistent with the true labels of the track. The loss function that we have used in the previous models is the binary cross-entropy, nonetheless, in this model we shall use the following loss function per sample:
 
-<img src="https://render.githubusercontent.com/render/math?math=\mathcal{L}\left(\theta,\mathcal{M}\right)\left(\hat{y}_{i}\right)=-\frac{1}{n}\sum_{i=1}^{n}\left(t_{i} \log\left(\hat{y}_{i}\right)+\left(1-t_{i}\right)\log \left(1-\hat{y}_{i}\right)(1+\gamma (1-\max_{j\in\mathcal{T}}(\omega_i\cdot\omega_j)))\right)">
+<img src="https://render.githubusercontent.com/render/math?math=\mathcal{L}\left(\theta,\mathcal{M}\right)\left(\hat{y}_{i}\right)=-\frac{1}{n}\sum_{i=1}^{n}\left(t_{i} \log\left(\hat{y}_{i}\right)%2B\left(1-t_{i}\right)\log \left(1-\hat{y}_{i}\right)(1%2B\gamma (1-\max_{j\in\mathcal{T}}(\omega_i\cdot\omega_j)))\right)">
 
 Where <img src="https://render.githubusercontent.com/render/math?math=\mathcal{T}"> represents the set of true labels of the sample, <img src="https://render.githubusercontent.com/render/math?math=\hat{y}_{i}"> is the probability prediction for label i, <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is a hyper-parameter, <img src="https://render.githubusercontent.com/render/math?math=\omega_i"> represents a normalized word embedding and <img src="https://render.githubusercontent.com/render/math?math=t_i"> equals 1 if i is one of the true labels of the sample and 0 otherwise. See that <img src="https://render.githubusercontent.com/render/math?math=\hat{y}_{i}\in (0,1)">, hence, for each iteration of the sum in which <img src="https://render.githubusercontent.com/render/math?math=t_i">, the modification of the loss function is equivalent to adding a positive term proportional to <img src="https://render.githubusercontent.com/render/math?math=(1-\max\limits_{j\in \mathcal{T}}(\omega_i\cdot \omega_j))">, to the binary cross entropy. The justification of the max operator can be understood easily with an example. Let us assume that we pass a sample with the tags "rock" and "female voices". We expect a large value for <img src="https://render.githubusercontent.com/render/math?math=\hat{y}_{i}">, in the case of the tag "female voice", which lead to a large value of <img src="https://render.githubusercontent.com/render/math?math=\log(1-\hat{y}_{i})">, in this case we would induce a small penalisation by adding the term <img src="https://render.githubusercontent.com/render/math?math=\log(1-\hat{y}_{i})\gamma(1-\max\limits_{j\in \mathcal{T}}(\omega_i\cdot \omega_j))">, since the cosine similarity between the embeddings of "female voice" and "female voices" is close to 1 independently of the similarity between "female voice" and "rock". See that if we had averaged the cosine similarity it would have led to random weights.
+
+We will also test the following custom loss function:
+
+<img src="https://render.githubusercontent.com/render/math?math=\mathcal{L}\left(\theta,\mathcal{M}\right)\left(\hat{y}_{i}\right)=-\frac{1}{n}\sum_{i=1}^{n}\left(t_{i} \log\left(\hat{y}_{i}\right)%2B\left(1-t_{i}\right)\log \left(1-\hat{y}_{i}\right)(1-\max_{j\in\mathcal{T}}(\omega_i\cdot\omega_j))\right)">
 
 ### Usage of scripts
 
@@ -181,6 +185,5 @@ This model is trained using the same scripts as in Model 1 and Model 2. With the
 | :------------------------ | :-------------|
 | --gamma | Hyperparameter used in the custom loss function
 | --custom-loss-embeddings-path | If exist, we use the custom loss function. Full path to txt file encoding the glove pre-trained embeddings, these embeddings can be downloaded from https://nlp.stanford.edu/projects/glove/ 
-
-
+| --custom-loss-embeddings-path-2 | If exist, we use the second custom loss function proposed in the report, this parameter overrides the previous one. Full path to txt file encoding the glove pre-trained embeddings
 
