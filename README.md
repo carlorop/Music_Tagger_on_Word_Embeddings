@@ -45,7 +45,7 @@ The parameters of the training script are:
 | --config | path to config.json 
 | --lastfm | path to lastfm database 
 | --multi-db | specify the number of different tags features in the .tfrecord files
-| --filter', action='store_true | Boolean for filtering the tags 
+| --filter | Boolean, if True the tags are filtered 
 | --filter-path | directory that contains tags_remove.txt, this file contains the name of the tags that we want to remove, the format of the file is: "tag_1 \n tag_2 \n..." 
 | --save-PR | path in which we save a npy file containing an array representing the AUC PR per label if multi-tags is True 
 | --save-ROC | path in which we save a npy file containing an array representing the AUC ROC per label if multi-tags is True 
