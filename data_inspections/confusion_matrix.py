@@ -3,6 +3,7 @@ Inspection of the confusion matrix
 The first axis of the confusion matrix represents: TP TN FP FN
 """
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--confusion-matrix-path", dest='confusion_matrix_path',
                     help='full path to the npy file that contains an array representing the confusion matrix')
@@ -21,3 +22,6 @@ thresholds = [0.33, 0.5, 0.67]
 for q in thresholds:
     print('Using threshold ', q, ' the confussion matrix is',
           WE_basemodel_confussion_matrix_normalized[:, int(200 * q), index_WE])
+ 
+print('The mean imbalance ratio of the dataset is: ',np.sum(confusion_matrix[0, 0, :].max()/confusion_matrix[0, 0, :])/len(confusion_matrix[0, 0, :]))
+
