@@ -102,7 +102,7 @@ The scripts used to run the models are found in `main_models/classifiers_on_clus
 The parameters of the training script are the following, the required parameters are marked in bold:
 | Parameter                 | Description   |	
 | :------------------------ | :-------------|
-|** frontend **	       |Specify the format of the input, 'waveform' or 'log-mel-spectrogram'
+|**frontend**	       |Specify the format of the input, 'waveform' or 'log-mel-spectrogram'
 |**--tfrecords-dir** 	       |directory to read the .tfrecord files 
 |**--dictionary-dir** | directory to read the dictionary that links the words and the clusters
 |**--config**  | path to config.json 
