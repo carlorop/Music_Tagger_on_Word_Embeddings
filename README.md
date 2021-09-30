@@ -187,3 +187,8 @@ This model is trained using the same scripts as in Model 1 and Model 2. With the
 | --custom-loss-embeddings-path | If exist, we use the custom loss function. Full path to txt file encoding the glove pre-trained embeddings, these embeddings can be downloaded from https://nlp.stanford.edu/projects/glove/ 
 | --custom-loss-embeddings-path-2 | If exist, we use the second custom loss function proposed in the report, this parameter overrides the previous one. Full path to txt file encoding the glove pre-trained embeddings
 
+## Results
+
+The performance of the models on the [last.fm](http://millionsongdataset.com/lastfm/) dataset, as well as an extensive discussion of the theoretical background, are presented in my master's [thesis](https://github.com/carlorop/Music_Tagger_on_Word_Embeddings/raw/main/master_thesis.pdf)
+
+
